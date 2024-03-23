@@ -1,13 +1,13 @@
 import * as vscode from "vscode";
-import { outputChan } from "./util";
+import { formatterOutputChan } from "./util";
 import * as cp from "child_process";
 
 
 export const checkLyInstallation = (lyPath: string) => {
   const res = cp.spawnSync(lyPath, [`-h`, `import ly`]);
   if (res.error || res.status !== 0) {
-    outputChan.appendLine(`[STDOUT]: ${res.stdout.toString()}`);
-    outputChan.appendLine(`[STDERR]: ${res.stderr.toString()}`);
+    formatterOutputChan.appendLine(`[STDOUT]: ${res.stdout.toString()}`);
+    formatterOutputChan.appendLine(`[STDERR]: ${res.stderr.toString()}`);
     throw new Error(
       `ly not installed. Please install ly (often the package 'python3-ly').`
     );
@@ -16,13 +16,13 @@ export const checkLyInstallation = (lyPath: string) => {
 
 const handleLyCommandOutput = (res: cp.SpawnSyncReturns<Buffer>): string => {
   if (res.error) {
-    outputChan.appendLine(`[STDOUT]: ${res.stdout.toString()}`);
-    outputChan.appendLine(`[STDERR]: ${res.stderr.toString()}`);
+    formatterOutputChan.appendLine(`[STDOUT]: ${res.stdout.toString()}`);
+    formatterOutputChan.appendLine(`[STDERR]: ${res.stderr.toString()}`);
     throw res.error;
   }
   if (res.status !== 0) {
-    outputChan.appendLine(`[STDOUT]: ${res.stdout.toString()}`);
-    outputChan.appendLine(`[STDERR]: ${res.stderr.toString()}`);
+    formatterOutputChan.appendLine(`[STDOUT]: ${res.stdout.toString()}`);
+    formatterOutputChan.appendLine(`[STDERR]: ${res.stderr.toString()}`);
     throw new Error(`ly error. See output for "LilyPond Assist: Formatter".`);
   }
   return res.stdout.toString();
@@ -33,7 +33,7 @@ const runReformatWithLy = (
   doc: vscode.TextDocument,
   timeoutMS: number
 ): string => {
-  outputChan.appendLine(
+  formatterOutputChan.appendLine(
     `[LOG]: Reformatting "${doc.fileName}" with "${lyPath}", timeout: "${timeoutMS}ms"`
   );
   const res = cp.spawnSync(lyPath, [
