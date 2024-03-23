@@ -9,19 +9,16 @@
   "categories": [
     "Other"
   ],
+  "activationEvents": [
+    "onLanguage:lilypond"
+  ],
   "contributes": {
     "languages": [
       {
         "id": "lilypond",
         "extensions": [
           ".ly",
-          ".lilypond"
-        ],
-        "aliases": [
-          "LilyPond"
-        ],
-        "mimetypes": [
-          "text/plain"
+          ".ily"
         ]
       }
     ]
@@ -31,6 +28,7 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
+    "vsce": "npm install -g @vscode/vsce",
     "package": "vsce package --allow-missing-repository",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",

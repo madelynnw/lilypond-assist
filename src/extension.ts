@@ -1,5 +1,8 @@
 import * as vscode from "vscode";
 import { runReformat } from "./format";
+import { runCompile } from "./compile";
+
+const langId = `lilypond`;
 
 const getProvider = (
 	context: vscode.ExtensionContext
@@ -31,7 +34,12 @@ const getProvider = (
 
 export const activate = (context: vscode.ExtensionContext) => {
 	vscode.languages.registerDocumentFormattingEditProvider(
-		`lilypond`,
+		langId,
 		getProvider(context)
 	);
+	vscode.workspace.onDidSaveTextDocument((doc: vscode.TextDocument) => {
+		if (doc.languageId === langId) {
+			runCompile(doc);
+		}
+	});
 };
