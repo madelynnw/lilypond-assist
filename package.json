@@ -3,6 +3,12 @@
   "displayName": "LilyPond Assist",
   "description": "LilyPond auto-formatting & compile-on-save.",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/madelynnw/lilypond-assist.git"
+  },
+  "license": "MIT",
+  "publisher": "maddyw",
   "engines": {
     "vscode": "^1.87.0"
   },
@@ -29,7 +35,7 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "vsce": "npm install -g @vscode/vsce",
-    "package": "vsce package --allow-missing-repository",
+    "package": "vsce package",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "vscode-test"
